@@ -1,27 +1,40 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <h2>{{ year }}年{{ month }}月</h2>
+    <CheckCalendar
+      :year="year"
+      :month="month"
+      shift="1"
+      :getHolidayNameFunc="getHolidayName"
+      v-model="checkedDates"
+    />
+    CheckedDates = {{ checkedDates }}
   </div>
 </template>
-
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
+import { Component, Vue } from "vue-property-decorator";
+import CheckCalendar from "./components/CheckCalendar.vue";
 
 @Component({
   components: {
-    HelloWorld,
-  },
+    CheckCalendar
+  }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  year = 2018;
+  month = 12;
+  checkedDates = [new Date(this.year, this.month - 1, 5)];
+
+  getHolidayName(year: number, month: number, numDate: number): string {
+    console.log(`getHolidayName called: ${year}-${month}-${numDate}`);
+    if (year == 2018 && month == 12 && numDate == 24) {
+      return "クリスマスイブ";
+    }
+    return "";
+  }
+}
 </script>
 <style lang="stylus">
-#app
-  font-family 'Avenir', Helvetica, Arial, sans-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  text-align center
-  color #2c3e50
-  margin-top 60px
+#app {
+}
 </style>
